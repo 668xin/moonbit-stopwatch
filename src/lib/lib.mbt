@@ -1,15 +1,8 @@
-/// 秒表库核心模块
-/// 统一导出所有对外公开类型与函数
+///|
+/// lib 包 — 统一导出文件
 ///
-/// 模块划分：
-/// - stopwatch.mbt — 秒表核心计时器
-/// - lap.mbt — 分段记录
-/// - formatter.mbt — 时间格式化
+/// MoonBit 包内的所有 pub 类型/函数会自动被外部包可见，
+/// 因此本文件仅作为模块说明，无需显式 re-export。
 ///
-/// 使用示例：
-/// ```
-/// let sw = Stopwatch::new()
-/// let sw1 = sw.start()
-/// let elapsed = sw1.elapsed()
-/// println(format_time(elapsed))
-/// ```
+/// 公开类型：Stopwatch, StopwatchState, LapRecord
+/// 公开函数：format_nanos, format_time

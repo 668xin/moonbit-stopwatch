@@ -41,30 +41,29 @@ fn run_demo() -> Unit {
 
   let sw = @lib.Stopwatch::new()
   println("Created stopwatch: idle")
-  println("Formatted time: " + @lib.format_time(sw.elapsed()))
+  println("Elapsed nanos: " + sw.elapsed_nanos().to_string())
   println("")
 
   let sw1 = sw.start()
   println("Started: running = " + sw1.is_running().to_string())
 
-  let elapsed1 = sw1.elapsed()
-  println("Elapsed: " + elapsed1.to_string() + "s")
-  println("Formatted: " + @lib.format_time(elapsed1))
+  let elapsed1 = sw1.elapsed_secs()
+  println("Elapsed secs: " + elapsed1.to_string())
+  println("Formatted: " + @lib.format_nanos(sw1.elapsed_nanos()))
   println("")
 
-  let (sw2, lap1) = sw1.lap()
-  println("Lap " + lap1.to_string() + " recorded")
+  let (sw2, lap1) = sw1.lap("demo-lap")
+  println("Lap recorded: " + @lib.format_nanos(lap1.lap_nanos))
   println("Total laps: " + sw2.lap_count().to_string())
   println("")
 
   let sw3 = sw2.stop()
   println("Stopped: running = " + sw3.is_running().to_string())
-  let elapsed2 = sw3.elapsed()
-  println("Final elapsed: " + @lib.format_time(elapsed2))
+  println("Final elapsed: " + @lib.format_nanos(sw3.elapsed_nanos()))
   println("")
 
   let sw4 = sw3.reset()
-  println("Reset: elapsed = " + sw4.elapsed().to_string() + "s")
+  println("Reset: elapsed_nanos = " + sw4.elapsed_nanos().to_string())
   println("Laps after reset: " + sw4.lap_count().to_string())
   println("")
   println("=== Demo Complete ===")
