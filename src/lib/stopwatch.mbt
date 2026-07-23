@@ -161,3 +161,9 @@ pub fn Stopwatch::is_running(self : Stopwatch) -> Bool {
 pub fn Stopwatch::lap_count(self : Stopwatch) -> Int {
   self.lap_records.length()
 }
+
+///|
+/// 返回格式化的耗时字符串（便捷方法）
+pub fn Stopwatch::elapsed_fmt(self : Stopwatch) -> String {
+  format_nanos(self.elapsed_nanos())
+}
