@@ -1,0 +1,6 @@
+import {
+  "668xin/moonbit-stopwatch/src/lib",
+  "moonbitlang/core/env",
+}
+
+pkgtype(kind: "executable")
