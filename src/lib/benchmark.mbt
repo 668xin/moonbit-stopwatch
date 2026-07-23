@@ -1,17 +1,53 @@
 ///|
 /// 基准测试配置
 pub struct BenchmarkConfig {
-  warmup_times : Int
-  run_times : Int
+  priv warmup_times : Int
+  priv run_times : Int
+}
+
+///|
+/// 获取预热次数
+pub fn BenchmarkConfig::warmup_times(self : BenchmarkConfig) -> Int {
+  self.warmup_times
+}
+
+///|
+/// 获取运行次数
+pub fn BenchmarkConfig::run_times(self : BenchmarkConfig) -> Int {
+  self.run_times
 }
 
 ///|
 /// 基准测试结果（单位均为纳秒）
 pub struct BenchmarkResult {
-  min_nanos : Int64
-  max_nanos : Int64
-  avg_nanos : Int64
-  total_nanos : Int64
+  priv min_nanos : Int64
+  priv max_nanos : Int64
+  priv avg_nanos : Int64
+  priv total_nanos : Int64
+}
+
+///|
+/// 获取最小耗时（纳秒）
+pub fn BenchmarkResult::min_nanos(self : BenchmarkResult) -> Int64 {
+  self.min_nanos
+}
+
+///|
+/// 获取最大耗时（纳秒）
+pub fn BenchmarkResult::max_nanos(self : BenchmarkResult) -> Int64 {
+  self.max_nanos
+}
+
+///|
+/// 获取平均耗时（纳秒）
+pub fn BenchmarkResult::avg_nanos(self : BenchmarkResult) -> Int64 {
+  self.avg_nanos
+}
+
+///|
+/// 获取总耗时（纳秒）
+pub fn BenchmarkResult::total_nanos(self : BenchmarkResult) -> Int64 {
+  self.total_nanos
 }
 
 ///|
@@ -30,7 +66,7 @@ pub fn BenchmarkConfig::new(warmup : Int, run_times : Int) -> BenchmarkConfig {
 ///|
 /// 基准测试运行器
 pub struct BenchmarkRunner {
-  config : BenchmarkConfig
+  priv config : BenchmarkConfig
 }
 
 ///|

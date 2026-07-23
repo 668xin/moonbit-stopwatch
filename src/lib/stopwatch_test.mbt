@@ -61,11 +61,11 @@ test "reset clears all state" {
 test "multiple lap records increase monotonically" {
   let sw = @lib.Stopwatch::new().start()
   let (sw1, l1) = sw.lap("1st")
-  assert_true(l1.total_nanos >= l1.lap_nanos)
+  assert_true(l1.total_nanos() >= l1.lap_nanos())
   let (sw2, l2) = sw1.lap("2nd")
-  assert_true(l2.total_nanos >= l1.total_nanos)
+  assert_true(l2.total_nanos() >= l1.total_nanos())
   let (sw3, l3) = sw2.lap("3rd")
-  assert_true(l3.total_nanos >= l2.total_nanos)
+  assert_true(l3.total_nanos() >= l2.total_nanos())
   assert_true(sw3.lap_count() == 3)
   let laps = sw3.list_laps()
   assert_true(laps.length() == 3)
@@ -75,9 +75,9 @@ test "multiple lap records increase monotonically" {
 test "lap record contains label and nanos" {
   let sw = @lib.Stopwatch::new().start()
   let (_sw, lap) = sw.lap("my-label")
-  assert_true(lap.label == "my-label")
-  assert_true(lap.lap_nanos >= 0L)
-  assert_true(lap.total_nanos >= lap.lap_nanos)
+  assert_true(lap.label() == "my-label")
+  assert_true(lap.lap_nanos() >= 0L)
+  assert_true(lap.total_nanos() >= lap.lap_nanos())
 }
 
 ///|
@@ -127,8 +127,8 @@ test "resume on running is no-op" {
 test "lap on idle returns zero split" {
   let sw = @lib.Stopwatch::new()
   let (_sw, lap) = sw.lap("idle")
-  assert_true(lap.lap_nanos == 0L)
-  assert_true(lap.total_nanos == 0L)
+  assert_true(lap.lap_nanos() == 0L)
+  assert_true(lap.total_nanos() == 0L)
 }
 
 ///|

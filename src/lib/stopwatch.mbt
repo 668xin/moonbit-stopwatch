@@ -15,10 +15,10 @@ pub enum StopwatchState {
 ///|
 /// Stopwatch 秒表核心类型
 pub struct Stopwatch {
-  state : StopwatchState
-  start_ts : Int64
-  pause_acc : Int64
-  lap_records : Array[LapRecord]
+  priv state : StopwatchState
+  priv start_ts : Int64
+  priv pause_acc : Int64
+  priv lap_records : Array[LapRecord]
 }
 
 ///|

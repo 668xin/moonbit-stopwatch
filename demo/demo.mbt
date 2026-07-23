@@ -41,13 +41,13 @@ fn demo_multiple_laps() -> Unit {
   println("Started stopwatch")
 
   let (sw1, lap1) = sw.lap("first")
-  println("Lap 1: " + lap1.label + " " + @lib.format_nanos(lap1.lap_nanos))
+  println("Lap 1: " + lap1.label() + " " + @lib.format_nanos(lap1.lap_nanos()))
 
   let (sw2, lap2) = sw1.lap("second")
-  println("Lap 2: " + lap2.label + " " + @lib.format_nanos(lap2.lap_nanos))
+  println("Lap 2: " + lap2.label() + " " + @lib.format_nanos(lap2.lap_nanos()))
 
   let (sw3, lap3) = sw2.lap("third")
-  println("Lap 3: " + lap3.label + " " + @lib.format_nanos(lap3.lap_nanos))
+  println("Lap 3: " + lap3.label() + " " + @lib.format_nanos(lap3.lap_nanos()))
 
   println("Total laps: " + sw3.lap_count().to_string())
 
@@ -57,11 +57,11 @@ fn demo_multiple_laps() -> Unit {
     let lap = laps[i]
     println(
       "  " +
-      lap.label +
+      lap.label() +
       ": split=" +
-      @lib.format_nanos(lap.lap_nanos) +
+      @lib.format_nanos(lap.lap_nanos()) +
       ", total=" +
-      @lib.format_nanos(lap.total_nanos),
+      @lib.format_nanos(lap.total_nanos()),
     )
     i = i + 1
   }

@@ -14,7 +14,7 @@
 ///|
 /// AsyncTimer 实例，用于测量异步任务的执行耗时
 pub struct AsyncTimer {
-  stopwatch : Stopwatch
+  priv stopwatch : Stopwatch
 }
 
 ///|

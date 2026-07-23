@@ -53,7 +53,7 @@ fn run_demo() -> Unit {
   println("")
 
   let (sw2, lap1) = sw1.lap("demo-lap")
-  println("Lap recorded: " + @lib.format_nanos(lap1.lap_nanos))
+  println("Lap recorded: " + @lib.format_nanos(lap1.lap_nanos()))
   println("Total laps: " + sw2.lap_count().to_string())
   println("")
 

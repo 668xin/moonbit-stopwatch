@@ -10,21 +10,21 @@ fn main {
 
   // 记录第1圈
   let (sw1, lap1) = sw.lap("第1圈")
-  println("1. 圈名: " + lap1.label)
-  println("   分段: " + @lib.format_nanos(lap1.lap_nanos))
-  println("   累计: " + @lib.format_nanos(lap1.total_nanos))
+  println("1. 圈名: " + lap1.label())
+  println("   分段: " + @lib.format_nanos(lap1.lap_nanos()))
+  println("   累计: " + @lib.format_nanos(lap1.total_nanos()))
 
   // 记录第2圈
   let (sw2, lap2) = sw1.lap("第2圈")
-  println("2. 圈名: " + lap2.label)
-  println("   分段: " + @lib.format_nanos(lap2.lap_nanos))
-  println("   累计: " + @lib.format_nanos(lap2.total_nanos))
+  println("2. 圈名: " + lap2.label())
+  println("   分段: " + @lib.format_nanos(lap2.lap_nanos()))
+  println("   累计: " + @lib.format_nanos(lap2.total_nanos()))
 
   // 记录第3圈
   let (sw3, lap3) = sw2.lap("第3圈")
-  println("3. 圈名: " + lap3.label)
-  println("   分段: " + @lib.format_nanos(lap3.lap_nanos))
-  println("   累计: " + @lib.format_nanos(lap3.total_nanos))
+  println("3. 圈名: " + lap3.label())
+  println("   分段: " + @lib.format_nanos(lap3.lap_nanos()))
+  println("   累计: " + @lib.format_nanos(lap3.total_nanos()))
 
   // 列出所有分段
   println("")
@@ -34,9 +34,9 @@ fn main {
   while i < laps.length() {
     let lap = laps[i]
     println(
-      "  [" + lap.label + "] 分段=" +
-      @lib.format_nanos(lap.lap_nanos) + ", 累计=" +
-      @lib.format_nanos(lap.total_nanos),
+      "  [" + lap.label() + "] 分段=" +
+      @lib.format_nanos(lap.lap_nanos()) + ", 累计=" +
+      @lib.format_nanos(lap.total_nanos()),
     )
     i = i + 1
   }
