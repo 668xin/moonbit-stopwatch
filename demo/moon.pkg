@@ -2,4 +2,4 @@ import {
   "668xin/moonbit-stopwatch/src/lib",
 }
 
-pkgtype(kind: "executable")
+options("is-main": true)
