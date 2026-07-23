@@ -1,12 +1,11 @@
 ///|
 /// 异步计时器
 ///
-/// 基于 moonbitlang/async 实现异步任务计时 API。
-/// 使用 `@lib.Stopwatch` 测量异步任务耗时。
+/// 基于 Stopwatch 实现异步任务计时 API。
 ///
 /// 示例：
 /// ```
-/// let timer = @async_timer.AsyncTimer::new()
+/// let timer = AsyncTimer::new()
 /// let timer = timer.start()
 /// // ... async task ...
 /// let (timer, elapsed) = timer.stop()
@@ -15,13 +14,13 @@
 ///|
 /// AsyncTimer 实例，用于测量异步任务的执行耗时
 pub struct AsyncTimer {
-  stopwatch : @lib.Stopwatch
+  stopwatch : Stopwatch
 }
 
 ///|
 /// 创建新的异步计时器（未启动）
 pub fn AsyncTimer::new() -> AsyncTimer {
-  AsyncTimer::{ stopwatch: @lib.Stopwatch::new() }
+  AsyncTimer::{ stopwatch: Stopwatch::new() }
 }
 
 ///|

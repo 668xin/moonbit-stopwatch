@@ -71,7 +71,7 @@ pub fn Stopwatch::resume(self : Stopwatch) -> Stopwatch {
 
 ///|
 /// 重置计时器，返回新的实例
-pub fn Stopwatch::reset(self : Stopwatch) -> Stopwatch {
+pub fn Stopwatch::reset(_self : Stopwatch) -> Stopwatch {
   Stopwatch::{
     state: Idle,
     start_ts: 0L,

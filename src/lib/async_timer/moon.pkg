@@ -1,4 +1,0 @@
-import {
-  "moonbitlang/async",
-  "668xin/moonbit-stopwatch/src/lib",
-}
