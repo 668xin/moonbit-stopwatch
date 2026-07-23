@@ -17,12 +17,14 @@ pub struct BenchmarkResult {
 ///|
 /// 创建基准测试配置
 ///
-/// 参数检查：run_times 必须大于 0
+/// 参数边界保护：run_times 非正数时给出友好提示并设为 1
 pub fn BenchmarkConfig::new(warmup : Int, run_times : Int) -> BenchmarkConfig {
   if run_times <= 0 {
-    abort("BenchmarkConfig: run_times must be > 0, got " + run_times.to_string())
+    println("Warning: run_times must be > 0, got " + run_times.to_string() + ", defaulting to 1")
+    BenchmarkConfig::{ warmup_times: warmup, run_times: 1 }
+  } else {
+    BenchmarkConfig::{ warmup_times: warmup, run_times }
   }
-  BenchmarkConfig::{ warmup_times: warmup, run_times }
 }
 
 ///|

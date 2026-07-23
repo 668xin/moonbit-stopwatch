@@ -5,4 +5,5 @@
 /// 因此本文件仅作为模块说明，无需显式 re-export。
 ///
 /// 公开类型：Stopwatch, StopwatchState, LapRecord, BenchmarkConfig, BenchmarkResult, BenchmarkRunner
-/// 公开函数：format_nanos, format_time, print_table
+/// 公开函数：format_nanos, format_time, print_table, result_to_json
+/// 异步计时API（async_timer 子包）：AsyncTimer

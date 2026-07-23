@@ -11,3 +11,7 @@ repository = "https://gitee.com/yourname/moonbit-stopwatch"
 readme = "README.md"
 
 keywords = [ "stopwatch", "timer", "moonbit", "utility" ]
+
+import {
+  "moonbitlang/async@0.20.3",
+}

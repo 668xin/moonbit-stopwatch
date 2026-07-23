@@ -36,31 +36,30 @@ cd moonbit-stopwatch
 仅允许引入依赖：
 
 - `moonbitlang/core`（标准库，必选）
-- `moonbitlang/async`（可选依赖，使用条件编译控制，不作为强制依赖）
-
+- `moonbitlang/async`（可选依赖，通过独立子包引入，不作为强制依赖）
 
 ## 2. 整体架构与模块职责
 
 1. **stopwatch.mbt**
-管理计时器状态：未启动 / 运行中 / 暂停；实现启动、暂停、恢复、重置；提供多精度耗时读取接口。
+   管理计时器状态：未启动 / 运行中 / 暂停；实现启动、暂停、恢复、重置；提供多精度耗时读取接口。
 
 2. **lap.mbt**
-存储分段记录：标签名称、分段耗时、时间戳；支持新增分段、遍历分段、清空分段。
+   存储分段记录：标签名称、分段耗时、时间戳；支持新增分段、遍历分段、清空分段。
 
 3. **formatter.mbt**
-接收纳秒数值，自动匹配时间单位，输出可读性友好的时间字符串。
+   接收纳秒数值，自动匹配时间单位，输出可读性友好的时间字符串。
 
 4. **benchmark.mbt**
-基准测试运行器，支持配置预热次数、正式迭代次数；计算最大、最小、平均耗时；控制台格式化表格输出结果。
+   基准测试运行器，支持配置预热次数、正式迭代次数；计算最大、最小、平均耗时；控制台格式化表格输出结果。
 
 5. **json_export.mbt**
-将基准测试统计结果序列化为JSON字符串，支持外部工具保存与可视化对比。
+   将基准测试统计结果序列化为JSON字符串，支持外部工具保存与可视化对比。
 
 6. **async_timer.mbt**
-采用条件编译 `#[cfg(feature = "async")]`，基于 `moonbitlang/async` 实现异步任务计时API，无对应依赖时不参与编译。
+   采用条件编译 `#[cfg(feature = "async")]`，基于 `moonbitlang/async` 实现异步任务计时API，无对应依赖时不参与编译。
 
 7. **lib.mbt**
-统一导出所有对外公开类型、函数；内部实现全部标记为私有，隔离内部逻辑。
+   统一导出所有对外公开类型、函数；内部实现全部标记为私有，隔离内部逻辑。
 
 ### 基础设计原则
 
@@ -77,6 +76,7 @@ cd moonbit-stopwatch
 **目标**：完成计时器核心逻辑，实现基础计时与分段打点
 
 **开发文件**：
+
 - src/stopwatch.mbt
 - src/lap.mbt
 - src/lib.mbt（基础类型导出）
@@ -86,23 +86,24 @@ cd moonbit-stopwatch
 
 1. 定义计时器状态枚举：Idle / Running / Paused
 2. Stopwatch 核心方法：
-    - `Stopwatch::start() -> Self` 创建并直接启动计时器
-    - `new() -> Self` 创建未启动计时器实例
-    - `start(&mut self)`
-    - `stop(&mut self)`
-    - `resume(&mut self)`
-    - `reset(&mut self)`
+   - `Stopwatch::start() -> Self` 创建并直接启动计时器
+   - `new() -> Self` 创建未启动计时器实例
+   - `start(&mut self)`
+   - `stop(&mut self)`
+   - `resume(&mut self)`
+   - `reset(&mut self)`
 3. 耗时读取接口：
-    - `elapsed_nanos(&self) -> Int64`
-    - `elapsed_micros(&self) -> Int64`
-    - `elapsed_millis(&self) -> Int64`
-    - `elapsed_secs(&self) -> Float64`
+   - `elapsed_nanos(&self) -> Int64`
+   - `elapsed_micros(&self) -> Int64`
+   - `elapsed_millis(&self) -> Int64`
+   - `elapsed_secs(&self) -> Float64`
 4. Lap 分段相关接口：
-    - `lap(&mut self, label: String) -> LapRecord`
-    - `list_laps(&self) -> Array[LapRecord]`
-    - `clear_laps(&mut self)`
+   - `lap(&mut self, label: String) -> LapRecord`
+   - `list_laps(&self) -> Array[LapRecord]`
+   - `clear_laps(&mut self)`
 
 **单元测试覆盖场景**：
+
 - 未启动状态读取耗时返回0
 - 启动、暂停、恢复时序逻辑正确性
 - 多次分段记录耗时单调递增
@@ -123,6 +124,7 @@ format_nanos(nanos: Int64) -> String
 ```
 
 **单位自动切换阈值规则**：
+
 - < 1000ns → ns
 - < 1_000_000ns → μs
 - < 1_000_000_000ns → ms
@@ -139,6 +141,7 @@ format_nanos(nanos: Int64) -> String
 **核心结构体**：BenchmarkConfig、BenchmarkResult
 
 **配置项**：
+
 - warmup_times: Int 预热执行次数
 - run_times: Int 正式迭代执行次数
 
@@ -157,13 +160,13 @@ format_nanos(nanos: Int64) -> String
 ### 阶段4：JSON导出、异步扩展、非法状态防护
 
 1. **src/json_export.mbt**
-实现 `result_to_json(res: &BenchmarkResult) -> String`，输出标准JSON文本，用于数据持久化与外部绘图。
+   实现 `result_to_json(res: &BenchmarkResult) -> String`，输出标准JSON文本，用于数据持久化与外部绘图。
 
 2. **src/async_timer.mbt**
-使用条件编译 `#[cfg(feature = "async")]`，依赖 `moonbitlang/async`，提供异步任务专用计时API。
+   使用条件编译 `#[cfg(feature = "async")]`，依赖 `moonbitlang/async`，提供异步任务专用计时API。
 
 3. **非法操作防护**
-处理重复start、重复stop、未启动直接resume等异常场景，不触发panic，做兼容处理。
+   处理重复start、重复stop、未启动直接resume等异常场景，不触发panic，做兼容处理。
 
 ---
 
@@ -188,8 +191,8 @@ format_nanos(nanos: Int64) -> String
 ## 4. API 规范强制约束
 
 1. **命名规范**
-    - 类型名：UpperCamelCase，例如 `Stopwatch`
-    - 函数、方法：snake_case，例如 `elapsed_nanos`
+   - 类型名：UpperCamelCase，例如 `Stopwatch`
+   - 函数、方法：snake_case，例如 `elapsed_nanos`
 
 2. 所有内部辅助函数、结构体字段添加 `priv`，最小暴露原则
 
@@ -268,7 +271,7 @@ moon add github.com/moonbit-community/moonbit-stopwatch
 - [ ] 统计计算：平均值、最大值、最小值
 - [ ] 控制台表格打印基准测试结果
 - [ ] Benchmark结果JSON序列化导出
-- [ ] 基于moonbitlang/async实现异步计时API（feature条件编译）
+- [x] 基于moonbitlang/async实现异步计时API（独立子包 async_timer）
 - [ ] 非法状态边界逻辑处理
 - [ ] 完整单元测试覆盖
 - [ ] 4组可运行示例代码

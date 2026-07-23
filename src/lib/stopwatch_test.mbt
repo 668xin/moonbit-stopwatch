@@ -90,3 +90,56 @@ test "clear laps removes all records" {
   assert_true(sw3.lap_count() == 0)
   assert_true(sw3.is_running())
 }
+
+///|
+test "double start is no-op" {
+  let sw = @lib.Stopwatch::new().start()
+  let sw1 = sw.start()
+  assert_true(sw1.is_running())
+  // 第二次 start 不应重置计时
+  assert_true(sw1.elapsed_nanos() >= 0L)
+}
+
+///|
+test "double stop is no-op" {
+  let sw = @lib.Stopwatch::new().start().stop()
+  let sw1 = sw.stop()
+  assert_true(!sw1.is_running())
+  // 第二次 stop 不改变已累积耗时
+  assert_true(sw1.elapsed_nanos() >= 0L)
+}
+
+///|
+test "resume on idle is no-op" {
+  let sw = @lib.Stopwatch::new().resume()
+  assert_true(!sw.is_running())
+  assert_true(sw.elapsed_nanos() == 0L)
+}
+
+///|
+test "resume on running is no-op" {
+  let sw = @lib.Stopwatch::new().start()
+  let sw1 = sw.resume()
+  assert_true(sw1.is_running())
+}
+
+///|
+test "lap on idle returns zero split" {
+  let sw = @lib.Stopwatch::new()
+  let (_sw, lap) = sw.lap("idle")
+  assert_true(lap.lap_nanos == 0L)
+  assert_true(lap.total_nanos == 0L)
+}
+
+///|
+test "list_laps on empty stopwatch" {
+  let sw = @lib.Stopwatch::new()
+  let laps = sw.list_laps()
+  assert_true(laps.length() == 0)
+}
+
+///|
+test "elapsed_fmt on idle" {
+  let sw = @lib.Stopwatch::new()
+  assert_true(sw.elapsed_fmt() == "0 ns")
+}
