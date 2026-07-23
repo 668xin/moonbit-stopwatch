@@ -6,7 +6,7 @@ description = "A lightweight stopwatch library built with MoonBit, supporting mu
 
 license = "MIT"
 
-repository = "https://gitee.com/yourname/moonbit-stopwatch"
+repository = "https://github.com/668xin/moonbit-stopwatch"
 
 readme = "README.md"
 
