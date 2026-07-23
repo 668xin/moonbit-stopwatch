@@ -43,3 +43,26 @@ test "AsyncTimer double start is no-op" {
   let (_timer2, elapsed) = timer1.stop()
   check(elapsed >= 0L)
 }
+
+///|
+test "AsyncTimer double stop is no-op" {
+  let timer = AsyncTimer::new().start()
+  let (timer1, _e1) = timer.stop()
+  let (timer2, e2) = timer1.stop()
+  check(e2 == 0L)
+}
+
+///|
+test "AsyncTimer stop on idle returns zero" {
+  let timer = AsyncTimer::new()
+  let (_timer, elapsed) = timer.stop()
+  check(elapsed == 0L)
+}
+
+///|
+test "AsyncTimer reset on running clears time" {
+  let timer = AsyncTimer::new().start()
+  let timer1 = timer.reset()
+  let (_timer2, elapsed) = timer1.stop()
+  check(elapsed == 0L)
+}

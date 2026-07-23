@@ -143,3 +143,31 @@ test "elapsed_fmt on idle" {
   let sw = @lib.Stopwatch::new()
   assert_true(sw.elapsed_fmt() == "0 ns")
 }
+
+///|
+test "stop on idle is no-op" {
+  let sw = @lib.Stopwatch::new()
+  let sw1 = sw.stop()
+  assert_true(!sw1.is_running())
+  assert_true(sw1.elapsed_nanos() == 0L)
+}
+
+///|
+test "lap on paused returns previous split" {
+  let sw = @lib.Stopwatch::new().start()
+  let (sw1, l1) = sw.lap("before pause")
+  assert_true(l1.lap_nanos() >= 0L)
+  let sw2 = sw1.stop()
+  let (sw3, l2) = sw2.lap("after pause")
+  assert_true(l2.lap_nanos() == 0L)
+  assert_true(l2.total_nanos() == l1.total_nanos())
+}
+
+///|
+test "elapsed_fmt on running returns non-empty formatted string" {
+  let sw = @lib.Stopwatch::new().start()
+  let fmt = sw.elapsed_fmt()
+  assert_true(fmt.length() > 0)
+  // 格式化结果应以数字开头（如 "123 ns"）
+  assert_true(fmt[0] >= '0' && fmt[0] <= '9')
+}

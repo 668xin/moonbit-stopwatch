@@ -53,3 +53,19 @@ test "elapsed_fmt on Stopwatch" {
   let fmt = sw1.elapsed_fmt()
   if !(fmt.length() > 0) { abort("elapsed_fmt should not be empty") }
 }
+
+///|
+test "format_time: large values" {
+  if !(@lib.format_time(86400.0) == "24:00:00.000") { abort("format_time(86400) failed") }
+  if !(@lib.format_time(100000.0) == "27:46:40.000") { abort("format_time(100000) failed") }
+}
+
+///|
+test "format_nanos: boundary transitions" {
+  // 刚好1000ns -> 1 μs
+  if !(@lib.format_nanos(1000L) == "1 μs") { abort("1000 ns -> μs failed") }
+  // 刚好1_000_000ns -> 1 ms
+  if !(@lib.format_nanos(1_000_000L) == "1 ms") { abort("1_000_000 ns -> ms failed") }
+  // 刚好1_000_000_000ns -> 1 s
+  if !(@lib.format_nanos(1_000_000_000L) == "1 s") { abort("1_000_000_000 ns -> s failed") }
+}

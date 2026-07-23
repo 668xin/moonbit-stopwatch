@@ -40,3 +40,19 @@ test "print_table does not crash" {
   let result = runner.run(busy_work)
   print_table(result)
 }
+
+///|
+test "BenchmarkConfig zero run_times clamps to 1" {
+  let cfg = BenchmarkConfig::new(0, 0)
+  if !(cfg.run_times() == 1) { abort("zero run_times should clamp to 1") }
+  if !(cfg.warmup_times() == 0) { abort("zero warmup_times should clamp to 0") }
+}
+
+///|
+test "BenchmarkRunner empty function returns all zero results" {
+  let cfg = BenchmarkConfig::new(0, 1)
+  let runner = BenchmarkRunner::new(cfg)
+  let result = runner.run(fn() {})
+  if !(result.min_nanos() >= 0L) { abort("min_nanos should be >= 0") }
+  if !(result.min_nanos() <= result.max_nanos()) { abort("min should be <= max") }
+}
